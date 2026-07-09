@@ -1,0 +1,6 @@
+node_modules/
+.env
+faq_fallback.sqlite
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
