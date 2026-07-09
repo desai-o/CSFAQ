@@ -1,4 +1,4 @@
-# 📚 CrowdFAQ (FAQE)
+# 📚 CrowdFAQ
 
 > A full-stack, **crowdsourced FAQ & Q&A platform** with AI assistance, real-time community features, gamification, and a resilient MongoDB‑first / SQLite‑fallback data layer.
 
