@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CrowdFAQ — Where Communities Build Knowledge</title>
+  
+  <!-- Modern Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    /* ── DESIGN SYSTEM & TOKENS ── */
+    :root {
+      --bg-page: #f8fafc;
+      --bg-card: rgba(255, 255, 255, 0.75);
+      --bg-card-hover: rgba(255, 255, 255, 0.95);
+      --border: rgba(15, 23, 42, 0.08);
+      --border-hover: rgba(15, 23, 42, 0.15);
+      --text-primary: #0f172a;
+      --text-secondary: #475569;
+      --text-muted: #94a3b8;
+      
+      --accent-blue: #3b82f6;
+      --accent-purple: #8b5cf6;
+      --accent-gradient: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+      
+      --font-heading: 'Outfit', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+      
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 24px;
+      --shadow: 0 10px 30px rgba(15, 23, 42, 0.04);
+      --shadow-hover: 0 20px 40px rgba(15, 23, 42, 0.08);
+    }
+
+    /* ── DOUBLE SCROLLBAR FIX ── */
+    html {
+      scroll-behavior: smooth;
+      background-color: var(--bg-page);
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      overflow-y: auto;
+      overflow-x: hidden !important;
+      height: 100%;
+    }
+
+    body {
+      min-height: 100%;
+      line-height: 1.6;
+      position: relative;
+      overflow: visible;
+      overflow-x: hidden !important;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* ── ORNAMENT GLOWS ── */
+    .glow-bg {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(150px);
+      z-index: 0;
+      opacity: 0.07;
+      pointer-events: none;
+    }
+
+    .glow-1 {
+      width: 500px;
+      height: 500px;
+      background: var(--accent-blue);
+      top: -100px;
+      right: -100px;
+    }
+
+    .glow-2 {
+      width: 450px;
+      height: 450px;
+      background: var(--accent-purple);
+      top: 50%;
+      left: -150px;
+    }
+
+    /* ── TYPOGRAPHY ── */
+    h1, h2, h3, h4 {
+      font-family: var(--font-heading);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+      transition: color 0.2s ease;
+    }
+
+    /* ── NAVBAR ── */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 6%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      background: rgba(248, 250, 252, 0.8);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-heading);
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--text-primary);
+    }
+
+    .logo-badge {
+      background: var(--text-primary);
+      color: var(--bg-page);
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .nav-links a {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-secondary);
+    }
+
+    .nav-links a:hover {
+      color: var(--text-primary);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      border-radius: var(--radius-sm);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      font-family: var(--font-body);
+      border: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--text-secondary);
+    }
+
+    .btn-ghost:hover {
+      color: var(--text-primary);
+    }
+
+    .btn-primary {
+      background: #000000;
+      color: #ffffff;
+      border-radius: 8px;
+      padding: 12px 24px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .btn-primary:hover {
+      transform: scale(1.03);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      border: 1px solid #000000;
+      color: #000000;
+      border-radius: 8px;
+      padding: 12px 24px;
+    }
+
+    .btn-secondary:hover {
+      transform: scale(1.03);
+      background: rgba(0, 0, 0, 0.02);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    /* ── HERO SECTION ── */
+    .hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 150px 6% 60px;
+      position: relative;
+      z-index: 1;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .hero h1 {
+      font-size: 64px;
+      line-height: 1.1;
+      max-width: 800px;
+      margin-bottom: 24px;
+      color: var(--text-primary);
+    }
+
+    .hero p {
+      font-size: 19px;
+      color: var(--text-secondary);
+      max-width: 600px;
+      margin-bottom: 40px;
+    }
+
+    .hero-ctas {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 56px;
+    }
+
+    /* ── TRUST BADGES ── */
+    .trust-badges {
+      display: flex;
+      align-items: center;
+      gap: 40px;
+      margin-bottom: 60px;
+      opacity: 0.6;
+      transition: opacity 0.3s ease;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .trust-badges:hover {
+      opacity: 0.95;
+    }
+
+    .trust-badge-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-secondary);
+    }
+
+    .trust-badge-item svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    /* ── BROWSER MOCKUP (DARK INTERIOR) ── */
+    .browser-mockup {
+      width: 100%;
+      max-width: 1000px;
+      background: #1e2026;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: var(--radius-md);
+      box-shadow: 0 20px 48px rgba(0, 0, 0, 0.15);
+      overflow: hidden;
+      transition: transform 0.3s ease;
+    }
+
+    .browser-mockup:hover {
+      transform: translateY(-4px);
+    }
+
+    .mockup-header {
+      background: rgba(255, 255, 255, 0.03);
+      padding: 12px 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .mockup-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .mockup-dot.red { background: #ef4444; }
+    .mockup-dot.yellow { background: #f59e0b; }
+    .mockup-dot.green { background: #10b981; }
+
+    .mockup-address {
+      flex: 1;
+      max-width: 400px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 6px;
+      padding: 4px 12px;
+      margin: 0 auto;
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.4);
+      text-align: center;
+    }
+
+    .mockup-body {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      height: 440px;
+      text-align: left;
+      background: #121318;
+    }
+
+    .mockup-sidebar {
+      background: #0d0e12;
+      border-right: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      color: #ffffff;
+    }
+
+    .mockup-sidebar-logo {
+      font-weight: 800;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font-heading);
+    }
+
+    .mockup-menu {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .mockup-menu-item {
+      font-size: 12px;
+      color: #9ca3af;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .mockup-menu-item.active {
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    .mockup-menu-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #4b5563;
+    }
+
+    .mockup-menu-item.active .mockup-menu-dot {
+      background: var(--accent-blue);
+    }
+
+    .mockup-main {
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      overflow-y: hidden;
+      color: #f3f4f6;
+    }
+
+    .mockup-title {
+      font-size: 20px;
+      font-weight: 700;
+      font-family: var(--font-heading);
+    }
+
+    .mockup-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .mockup-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+    }
+
+    .mockup-card h4 {
+      font-size: 11px;
+      color: #9ca3af;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .mockup-card p {
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .mockup-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .mockup-list-item {
+      padding: 16px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: var(--radius-sm);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .mockup-item-left h5 {
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .mockup-item-left p {
+      font-size: 11px;
+      color: #6b7280;
+    }
+
+    .mockup-badge {
+      font-size: 11px;
+      padding: 4px 8px;
+      background: rgba(59, 130, 246, 0.15);
+      color: #60a5fa;
+      border-radius: 4px;
+      border: 1px solid rgba(59, 130, 246, 0.25);
+    }
+
+    /* ── STATS STRIP (FULL WIDTH, DIVIDERS) ── */
+    .stats-strip {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100vw;
+      margin-left: calc(-50vw + 50%);
+      padding: 32px 0;
+      background: #f1f5f9;
+      border-top: 1px solid #e2e8f0;
+      border-bottom: 1px solid #e2e8f0;
+      position: relative;
+      z-index: 1;
+      margin-top: 60px;
+    }
+
+    .stats-item {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+
+    .stats-item:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      right: 0;
+      top: 20%;
+      height: 60%;
+      width: 1px;
+      background: #cbd5e1;
+    }
+
+    .stats-val {
+      font-size: 36px;
+      font-weight: 800;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+      font-family: var(--font-heading);
+    }
+
+    .stats-lbl {
+      font-size: 13px;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+    }
+
+    /* ── FEATURES SECTION (GLASSMORPHISM CARDS) ── */
+    .features {
+      padding: 100px 6%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-title {
+      font-size: 38px;
+      margin-bottom: 16px;
+      text-align: center;
+      color: var(--text-primary);
+    }
+
+    .section-subtitle {
+      font-size: 16px;
+      color: var(--text-secondary);
+      text-align: center;
+      margin-bottom: 56px;
+      max-width: 500px;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      width: 100%;
+      max-width: 1000px;
+    }
+
+    .feature-card {
+      background: rgba(255, 255, 255, 0.4);
+      border: 1px solid rgba(15, 23, 42, 0.06);
+      border-radius: var(--radius-lg);
+      padding: 36px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      text-align: left;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(15, 23, 42, 0.12);
+      background: rgba(255, 255, 255, 0.85);
+      box-shadow: 0 16px 36px rgba(15, 23, 42, 0.05);
+    }
+
+    .feature-icon {
+      font-size: 28px;
+      background: #f1f5f9;
+      width: 56px;
+      height: 56px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(15, 23, 42, 0.06);
+    }
+
+    .feature-card h3 {
+      font-size: 19px;
+      font-family: var(--font-heading);
+      color: var(--text-primary);
+    }
+
+    .feature-card p {
+      font-size: 14.5px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    /* ── DOWNLOAD EXTENSION BANNER ── */
+    .extension-section {
+      padding: 80px 6%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+      background: #f8fafc;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      width: 100vw;
+      margin-left: calc(-50vw + 50%);
+    }
+
+    .extension-container {
+      max-width: 1000px;
+      width: 100%;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+      text-align: center;
+    }
+
+    .extension-title {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--text-primary);
+      max-width: 650px;
+      line-height: 1.4;
+    }
+
+    .extension-btns {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .btn-chrome {
+      background: #10b981;
+      color: #ffffff;
+      padding: 12px 24px;
+      font-weight: 600;
+      border-radius: 8px;
+      box-shadow: 0 4px 14px rgba(16, 185, 129, 0.2);
+    }
+
+    .btn-chrome:hover {
+      background: #059669;
+      transform: scale(1.03);
+      box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+    }
+
+    .btn-firefox {
+      background: #f97316;
+      color: #ffffff;
+      padding: 12px 24px;
+      font-weight: 600;
+      border-radius: 8px;
+      box-shadow: 0 4px 14px rgba(249, 115, 22, 0.2);
+    }
+
+    .btn-firefox:hover {
+      background: #ea580c;
+      transform: scale(1.03);
+      box-shadow: 0 8px 20px rgba(249, 115, 22, 0.3);
+    }
+
+    /* ── FOOTER (DARK SINGLE ROW) ── */
+    .footer {
+      background: #0f0f1a;
+      color: #94a3b8;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      padding: 30px 6%;
+      position: relative;
+      z-index: 1;
+    }
+
+    .footer-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1100px;
+      margin: 0 auto;
+      width: 100%;
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+
+    .footer .logo-container {
+      color: #ffffff;
+    }
+
+    .footer .logo-badge {
+      background: #ffffff;
+      color: #0f0f1a;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 24px;
+      list-style: none;
+    }
+
+    .footer-links a {
+      font-size: 14px;
+      color: #94a3b8;
+      font-weight: 500;
+    }
+
+    .footer-links a:hover {
+      color: #ffffff;
+    }
+
+    .footer-copyright {
+      font-size: 13px;
+      color: #64748b;
+    }
+
+    /* ── SCROLL ANIMATIONS ── */
+    .scroll-fade {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .scroll-fade.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── RESPONSIVE DESIGN ── */
+    @media (max-width: 968px) {
+      .navbar {
+        padding: 20px 4%;
+      }
+      .nav-links {
+        display: none;
+      }
+      .hero h1 {
+        font-size: 44px;
+      }
+      .mockup-body {
+        grid-template-columns: 1fr;
+      }
+      .mockup-sidebar {
+        display: none;
+      }
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+      .stats-strip {
+        flex-direction: column;
+        padding: 40px 0;
+        gap: 32px;
+      }
+      .stats-item:not(:last-child)::after {
+        display: none;
+      }
+      .footer-row {
+        flex-direction: column;
+        text-align: center;
+      }
+      .footer-links {
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+    }
+
+    @media (max-width: 580px) {
+      .mockup-grid {
+        grid-template-columns: 1fr !important;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero h1 {
+        font-size: 32px;
+      }
+      .hero p {
+        font-size: 15px;
+      }
+      .hero-ctas {
+        flex-direction: column;
+        width: 100%;
+        gap: 12px;
+      }
+      .hero-ctas .btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background Ornaments -->
+  <div class="glow-bg glow-1"></div>
+  <div class="glow-bg glow-2"></div>
+
+  <!-- Header / Navigation -->
+  <header class="navbar">
+    <div class="logo-container">
+      <div class="logo-badge">Q</div>
+      <span>CrowdFAQ</span>
+    </div>
+    <ul class="nav-links">
+      <li><a href="#product">Product</a></li>
+      <li><a href="#features">Features</a></li>
+      <li><a href="#community">Community</a></li>
+      <li><a href="#developers">Developers</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="/login" class="btn btn-ghost">Log In</a>
+      <a href="/signup" class="btn btn-primary">Get Started Free</a>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero scroll-fade">
+    <h1>Where Communities<br>Build Knowledge.</h1>
+    <p>Ask questions, discover answers, and learn from your community — powered by AI.</p>
+    <div class="hero-ctas">
+      <button class="btn btn-primary" onclick="window.location.href='/signup'">Get Started</button>
+      <button class="btn btn-secondary" onclick="document.getElementById('features').scrollIntoView();">See How It Works</button>
+    </div>
+    
+    <!-- Trust Badges -->
+    <div class="trust-badges">
+      <div class="trust-badge-item">
+        <!-- MongoDB icon -->
+        <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        <span>MongoDB</span>
+      </div>
+      <div class="trust-badge-item">
+        <!-- Google Gemini icon -->
+        <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <span>Google Gemini</span>
+      </div>
+      <div class="trust-badge-item">
+        <!-- Node.js icon -->
+        <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <span>Node.js</span>
+      </div>
+      <div class="trust-badge-item">
+        <!-- React icon -->
+        <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><path d="M8 12h8M12 8v8"/></svg>
+        <span>React</span>
+      </div>
+  </section>
+
+  <!-- Product Section -->
+  <section id="product" class="product-section scroll-fade" style="padding: 80px 6% 40px; text-align: center; max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; position: relative; z-index: 1;">
+    <h2 class="section-title" style="font-size: 38px; margin-bottom: 16px; text-align: center; color: var(--text-primary);">Product Overview</h2>
+    <p class="section-subtitle" style="font-size: 16px; color: var(--text-secondary); text-align: center; margin-bottom: 48px; max-width: 600px;">Explore our interactive dashboard to manage your community knowledge base, track contributor status, and answer questions.</p>
+
+    <!-- Interactive Dashboard Mockup (Dark Sidebar + Stats Cards Layout) -->
+    <div class="browser-mockup scroll-fade">
+      <div class="mockup-header">
+        <div class="mockup-dot red"></div>
+        <div class="mockup-dot yellow"></div>
+        <div class="mockup-dot green"></div>
+        <div class="mockup-address">crowdfaq.com/dashboard</div>
+      </div>
+      <div class="mockup-body">
+        <div class="mockup-sidebar">
+          <div class="mockup-sidebar-logo">
+            <div class="logo-badge" style="width:18px;height:18px;font-size:11px;background:#fff;color:#000;">Q</div>
+            <span>CrowdFAQ</span>
+          </div>
+          <ul class="mockup-menu">
+            <li class="mockup-menu-item active"><span class="mockup-menu-dot"></span>Dashboard</li>
+            <li class="mockup-menu-item"><span class="mockup-menu-dot"></span>Questions</li>
+            <li class="mockup-menu-item"><span class="mockup-menu-dot"></span>Categories</li>
+            <li class="mockup-menu-item"><span class="mockup-menu-dot"></span>Contributors</li>
+            <li class="mockup-menu-item"><span class="mockup-menu-dot"></span>Bookmarks</li>
+          </ul>
+        </div>
+        <div class="mockup-main">
+          <div class="mockup-title">Dashboard Overview</div>
+          <div class="mockup-grid">
+            <div class="mockup-card">
+              <h4>Total Questions</h4>
+              <p>12,842</p>
+            </div>
+            <div class="mockup-card">
+              <h4>Answers Posted</h4>
+              <p>42,109</p>
+            </div>
+            <div class="mockup-card">
+              <h4>Community Rep</h4>
+              <p>158,400</p>
+            </div>
+          </div>
+          <div style="font-size:12px;font-weight:700;color:#9ca3af;text-transform:uppercase;margin-top:10px;">Recent Active FAQ threads</div>
+          <div class="mockup-list">
+            <div class="mockup-list-item">
+              <div class="mockup-item-left">
+                <h5>How does virtual memory work at the OS level?</h5>
+                <p>Asked by Jordan Lee · 2 hours ago</p>
+              </div>
+              <span class="mockup-badge">Resolved</span>
+            </div>
+            <div class="mockup-list-item">
+              <div class="mockup-item-left">
+                <h5>Best roadmap for AI/ML in 2026?</h5>
+                <p>Asked by Alex Chen · 1 day ago</p>
+              </div>
+              <span class="mockup-badge">3 Answers</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats Strip (Below the browser mockup) -->
+  <section class="stats-strip scroll-fade">
+    <div class="stats-item">
+      <span class="stats-val">12.8K</span>
+      <span class="stats-lbl">Questions Asked</span>
+    </div>
+    <div class="stats-item">
+      <span class="stats-val">3.2K</span>
+      <span class="stats-lbl">Active Members</span>
+    </div>
+    <div class="stats-item">
+      <span class="stats-val">42K</span>
+      <span class="stats-lbl">Answers Posted</span>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section id="features" class="features">
+    <h2 class="section-title scroll-fade">Engineered for Knowledge sharing</h2>
+    <p class="section-subtitle scroll-fade">Everything you need to capture, organize, and query community knowledge efficiently.</p>
+    
+    <div class="features-grid">
+      <!-- Feature Card 1 -->
+      <div class="feature-card scroll-fade">
+        <div class="feature-icon">📝</div>
+        <h3>AI-Powered Summaries</h3>
+        <p>Instantly summarize complex discussion threads into clean key takeaways powered by Google Gemini.</p>
+      </div>
+      <!-- Feature Card 2 -->
+      <div class="feature-card scroll-fade">
+        <div class="feature-icon">🔌</div>
+        <h3>Embeddable Widget</h3>
+        <p>Integrate a floating knowledge helper directly into any website with a single line of script code.</p>
+      </div>
+      <!-- Feature Card 3 -->
+      <div class="feature-card scroll-fade">
+        <div class="feature-icon">🏆</div>
+        <h3>Contributor Profiles</h3>
+        <p>Track your impact, earn reputation, build your knowledge portfolio with tiered badges and ratings.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Download Extension Banner -->
+  <section class="extension-section scroll-fade">
+    <div class="extension-container">
+      <h2 class="extension-title">⚡ Available as a Browser Extension — Get CrowdFAQ answers anywhere on the web</h2>
+      <div class="extension-btns">
+        <button class="btn btn-chrome" onclick="alert('Chrome Extension download starts soon!')">
+          <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24" style="margin-right:8px;"><path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm0 3.6c2.3 0 4.3.9 5.8 2.4l-7.7 7.7-3.9-3.9c-.8-.8-.8-2 0-2.8l1.4-1.4c.8-.8 2-.8 2.8 0l1.6 1.6 4.9-4.9c-1.4-1-3.1-1.6-4.9-1.6zm0 16.8c-4.6 0-8.4-3.8-8.4-8.4s3.8-8.4 8.4-8.4 8.4 3.8 8.4 8.4-3.8 8.4-8.4 8.4z"/></svg>
+          Add to Chrome
+        </button>
+        <button class="btn btn-firefox" onclick="alert('Firefox Add-on download starts soon!')">
+          <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24" style="margin-right:8px;"><path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm.8 4.2c.4 0 .8.1 1.2.3.8.4 1.4 1.1 1.7 2 .4.8.4 1.8.1 2.7l.5.3c1-.6 2.3-.9 3.5-.8-.8-2-2.3-3.6-4.2-4.5l-2.8 0zm-7.3 4c1-.8 2.3-1.3 3.6-1.3.8 0 1.6.2 2.3.6l-.3.6c-.6 1.1-.6 2.4-.1 3.5.4 1 1.2 1.8 2.2 2.2l-.6 1.1c-.8.8-1.9 1.3-3.1 1.3-2.2 0-4.1-1.5-4.6-3.6-.6-2 .1-4.1 1.6-4.4zm6.5 11.6c-4 0-7.3-3.3-7.3-7.3s3.3-7.3 7.3-7.3 7.3 3.3 7.3 7.3-3.3 7.3-7.3 7.3zm.8-11.4c-.4 0-.8.2-1.1.5-.3.3-.5.7-.5 1.1s.2.8.5 1.1c.3.3.7.5 1.1.5s.8-.2 1.1-.5c.3-.3.5-.7.5-1.1s-.2-.8-.5-1.1c-.3-.3-.7-.5-1.1-.5z"/></svg>
+          Add to Firefox
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer (Dark Background, Single Row) -->
+  <footer class="footer">
+    <div class="footer-row">
+      <div class="logo-container">
+        <div class="logo-badge">Q</div>
+        <span>CrowdFAQ</span>
+      </div>
+      <ul class="footer-links">
+        <li><a href="#product">Product</a></li>
+        <li><a href="#features">Features</a></li>
+        <li><a href="#community">Community</a></li>
+        <li><a href="#privacy">Privacy</a></li>
+        <li><a href="#terms">Terms</a></li>
+      </ul>
+      <div class="footer-copyright">
+        &copy; 2026 CrowdFAQ Inc. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <!-- CrowdFAQ Floating Widget Script -->
+  <script src="http://localhost:5173/widget.js" data-site-id="crowdfaq-100" async></script>
+
+  <script>
+    // ── SCROLL FADE IN ANIMATION ──
+    const faders = document.querySelectorAll('.scroll-fade');
+    const options = {
+      threshold: 0.1,
+      rootMargin: "0px 0px -50px 0px"
+    };
+
+    const appearOnScroll = new IntersectionObserver(function(entries, appearOnScroll) {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) {
+          return;
+        } else {
+          entry.target.classList.add('visible');
+          appearOnScroll.unobserve(entry.target);
+        }
+      });
+    }, options);
+
+    faders.forEach(fader => {
+      appearOnScroll.observe(fader);
+    });
+
+    // ── SMOOTH SCROLL TO PRODUCT SECTION ──
+    document.querySelector('a[href="#product"]').addEventListener('click', (e) => {
+      e.preventDefault();
+      const productEl = document.getElementById('product');
+      if (productEl) {
+        productEl.scrollIntoView({ behavior: 'smooth' });
+      }
+    });
+  </script>
+
+</body>
+</html>
