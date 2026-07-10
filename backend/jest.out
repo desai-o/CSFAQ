@@ -1,0 +1,277 @@
+  console.log
+    Skipping duplicate column migration statement: "ALTER TABLE users ADD COLUMN role TEXT DEFAULT 'student'"
+
+      at log (db/migrations/runMigrations.js:27:17)
+
+  console.log
+    Skipping duplicate column migration statement: "ALTER TABLE users ADD COLUMN badges TEXT DEFAULT ''"
+
+      at log (db/migrations/runMigrations.js:27:17)
+
+  console.log
+    Skipping duplicate column migration statement: "ALTER TABLE users ADD COLUMN cohort TEXT DEFAULT ''"
+
+      at log (db/migrations/runMigrations.js:27:17)
+
+  console.log
+    Skipping duplicate column migration statement: "ALTER TABLE user_queries ADD COLUMN description TEXT DEFAULT ''"
+
+      at log (db/migrations/runMigrations.js:27:17)
+
+  console.log
+    Skipping duplicate column migration statement: "ALTER TABLE user_queries ADD COLUMN category TEXT DEFAULT 'General'"
+
+      at log (db/migrations/runMigrations.js:27:17)
+
+  console.log
+    Skipping duplicate column migration statement: "ALTER TABLE user_queries ADD COLUMN tags TEXT DEFAULT ''"
+
+      at log (db/migrations/runMigrations.js:27:17)
+
+  console.log
+    Skipping duplicate column migration statement: "ALTER TABLE user_queries ADD COLUMN user_id TEXT DEFAULT 'anonymous'"
+
+      at log (db/migrations/runMigrations.js:27:17)
+
+  console.log
+    Skipping duplicate column migration statement: "ALTER TABLE user_queries ADD COLUMN author_name TEXT DEFAULT 'Anonymous'"
+
+      at log (db/migrations/runMigrations.js:27:17)
+
+  console.log
+    Skipping duplicate column migration statement: "ALTER TABLE faqs ADD COLUMN category TEXT DEFAULT 'General'"
+
+      at log (db/migrations/runMigrations.js:27:17)
+
+  console.log
+    Skipping duplicate column migration statement: "ALTER TABLE faqs ADD COLUMN tags TEXT DEFAULT ''"
+
+      at log (db/migrations/runMigrations.js:27:17)
+
+  console.log
+    Skipping duplicate column migration statement: "ALTER TABLE faqs ADD COLUMN search_boost REAL DEFAULT 1"
+
+      at log (db/migrations/runMigrations.js:27:17)
+
+  console.log
+    Skipping duplicate column migration statement: "ALTER TABLE faqs ADD COLUMN user_id TEXT DEFAULT 'anonymous'"
+
+      at log (db/migrations/runMigrations.js:27:17)
+
+  console.log
+    Skipping duplicate column migration statement: "ALTER TABLE faqs ADD COLUMN author_name TEXT DEFAULT 'Anonymous'"
+
+      at log (db/migrations/runMigrations.js:27:17)
+
+  console.log
+    Skipping duplicate column migration statement: "ALTER TABLE answers ADD COLUMN user_id TEXT DEFAULT 'anonymous'"
+
+      at log (db/migrations/runMigrations.js:27:17)
+
+  console.log
+    Skipping duplicate column migration statement: "ALTER TABLE answers ADD COLUMN author_name TEXT DEFAULT 'Community Member'"
+
+      at log (db/migrations/runMigrations.js:27:17)
+
+  console.log
+    Applied SQLite migration: 001_stabilize_schema.sql
+
+      at log (db/migrations/runMigrations.js:71:15)
+
+  console.log
+    Applied SQLite migration: 002_add_sync_indexes.sql
+
+      at log (db/migrations/runMigrations.js:71:15)
+
+  console.log
+    Skipping duplicate column migration statement: "ALTER TABLE notifications ADD COLUMN event_type TEXT DEFAULT ''"
+
+      at log (db/migrations/runMigrations.js:27:17)
+
+  console.log
+    Skipping duplicate column migration statement: "ALTER TABLE notifications ADD COLUMN followable_type TEXT DEFAULT ''"
+
+      at log (db/migrations/runMigrations.js:27:17)
+
+  console.log
+    Skipping duplicate column migration statement: "ALTER TABLE notifications ADD COLUMN followable_id TEXT DEFAULT ''"
+
+      at log (db/migrations/runMigrations.js:27:17)
+
+  console.log
+    Applied SQLite migration: 003_notification_metadata.sql
+
+      at log (db/migrations/runMigrations.js:71:15)
+
+  console.log
+    Applied SQLite migration: 004_add_remaining_lookup_indexes.sql
+
+      at log (db/migrations/runMigrations.js:71:15)
+
+  console.log
+    Skipping duplicate column migration statement: "-- SQLite migration: 005_phases_1_and_2.sql
+    -- Add Answer verification columns
+    ALTER TABLE answers ADD COLUMN is_verified INTEGER DEFAULT 0"
+
+      at log (db/migrations/runMigrations.js:27:17)
+
+  console.log
+    Skipping duplicate column migration statement: "ALTER TABLE answers ADD COLUMN verified_by TEXT DEFAULT NULL"
+
+      at log (db/migrations/runMigrations.js:27:17)
+
+  console.log
+    Skipping duplicate column migration statement: "ALTER TABLE answers ADD COLUMN verified_at TEXT DEFAULT NULL"
+
+      at log (db/migrations/runMigrations.js:27:17)
+
+  console.log
+    Skipping duplicate column migration statement: "ALTER TABLE answers ADD COLUMN verification_note TEXT DEFAULT NULL"
+
+      at log (db/migrations/runMigrations.js:27:17)
+
+  console.log
+    Skipping duplicate column migration statement: "-- Add FAQ relevance decay / needs-update columns
+    ALTER TABLE faqs ADD COLUMN stale_score REAL DEFAULT 0"
+
+      at log (db/migrations/runMigrations.js:27:17)
+
+  console.log
+    Skipping duplicate column migration statement: "ALTER TABLE faqs ADD COLUMN last_reviewed_at TEXT DEFAULT NULL"
+
+      at log (db/migrations/runMigrations.js:27:17)
+
+  console.log
+    Skipping duplicate column migration statement: "ALTER TABLE faqs ADD COLUMN needs_update INTEGER DEFAULT 0"
+
+      at log (db/migrations/runMigrations.js:27:17)
+
+  console.log
+    Skipping duplicate column migration statement: "ALTER TABLE faqs ADD COLUMN update_reason TEXT DEFAULT ''"
+
+      at log (db/migrations/runMigrations.js:27:17)
+
+  console.log
+    Applied SQLite migration: 005_phases_1_and_2.sql
+
+      at log (db/migrations/runMigrations.js:71:15)
+
+  console.log
+    Applied SQLite migration: 006_phases_3_and_4.sql
+
+      at log (db/migrations/runMigrations.js:71:15)
+
+  console.log
+    Skipping duplicate column migration statement: "-- SQLite migration: 007_phases_5_6_7.sql
+    
+    -- Add moderation_status columns
+    ALTER TABLE faqs ADD COLUMN moderation_status TEXT DEFAULT 'approved'"
+
+      at log (db/migrations/runMigrations.js:27:17)
+
+  console.log
+    Skipping duplicate column migration statement: "ALTER TABLE user_queries ADD COLUMN moderation_status TEXT DEFAULT 'approved'"
+
+      at log (db/migrations/runMigrations.js:27:17)
+
+  console.log
+    Skipping duplicate column migration statement: "ALTER TABLE answers ADD COLUMN moderation_status TEXT DEFAULT 'approved'"
+
+      at log (db/migrations/runMigrations.js:27:17)
+
+  console.log
+    Applied SQLite migration: 007_phases_5_6_7.sql
+
+      at log (db/migrations/runMigrations.js:71:15)
+
+  console.log
+    Applied SQLite migration: 008_answer_translations.sql
+
+      at log (db/migrations/runMigrations.js:71:15)
+
+  console.log
+    Skipping duplicate column migration statement: "-- Migration 009: add `views` column to questions and queries.
+    -- This tracks how many times a question / query has been opened
+    -- in its detail view, so it can be displayed to readers and used
+    -- for ranking (e.g. trending questions).
+    
+    ALTER TABLE faqs ADD COLUMN views INTEGER DEFAULT 0"
+
+      at log (db/migrations/runMigrations.js:27:17)
+
+  console.log
+    Skipping duplicate column migration statement: "ALTER TABLE user_queries ADD COLUMN views INTEGER DEFAULT 0"
+
+      at log (db/migrations/runMigrations.js:27:17)
+
+  console.log
+    Applied SQLite migration: 009_add_question_views.sql
+
+      at log (db/migrations/runMigrations.js:71:15)
+
+  console.log
+    Seeding mock events for SQLite...
+
+      at log (db/sqlite.js:330:11)
+
+  console.log
+    Mock events seeding completed successfully.
+
+      at log (db/sqlite.js:391:13)
+
+  console.log
+    SQLite fallback ready
+
+      at log (db/sqlite.js:326:11)
+
+  console.warn
+    Gemini moderation call failed, using fallback: {"error":{"code":429,"message":"You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash\nPlease retry in 49.329498218s.","status":"RESOURCE_EXHAUSTED","details":[{"@type":"type.googleapis.com/google.rpc.Help","links":[{"description":"Learn more about Gemini API quotas","url":"https://ai.google.dev/gemini-api/docs/rate-limits"}]},{"@type":"type.googleapis.com/google.rpc.QuotaFailure","violations":[{"quotaMetric":"generativelanguage.googleapis.com/generate_content_free_tier_requests","quotaId":"GenerateRequestsPerDayPerProjectPerModel-FreeTier","quotaDimensions":{"location":"global","model":"gemini-2.5-flash"},"quotaValue":"20"}]},{"@type":"type.googleapis.com/google.rpc.RetryInfo","retryDelay":"49s"}]}}
+
+    [0m [90m 53 |[39m       }[33m;[39m
+     [90m 54 |[39m     } [36mcatch[39m (err) {
+    [31m[1m>[22m[39m[90m 55 |[39m       console[33m.[39mwarn([32m"Gemini moderation call failed, using fallback:"[39m[33m,[39m err[33m.[39mmessage)[33m;[39m
+     [90m    |[39m               [31m[1m^[22m[39m
+     [90m 56 |[39m     }
+     [90m 57 |[39m   }
+     [90m 58 |[39m[0m
+
+      at warn (services/moderationService.js:55:15)
+      at createModerationRecord (services/moderationService.js:80:18)
+      at routes/queryRoutes.js:196:23
+
+[0mPOST /api/queries [32m201[0m 555.269 ms - 169[0m
+[0mGET /api/queries/1 [33m404[0m 2.037 ms - 95[0m
+[0mPOST /api/queries/1/view [32m200[0m 6.713 ms - 84[0m
+[0mPOST /api/queries/1/view [32m200[0m 1.094 ms - 83[0m
+[0mPOST /api/queries/1/view [32m200[0m 1.014 ms - 83[0m
+[0mGET /api/faqs/faq-1 [33m404[0m 1.635 ms - 67[0m
+[0mGET /api/faqs/faq-2 [33m404[0m 1.037 ms - 67[0m
+[0mGET /api/faqs/faq-3 [33m404[0m 0.845 ms - 67[0m
+[0mPOST /api/faqs/no-such-faq/view [33m404[0m 1.528 ms - 67[0m
+FAIL tests/question.views.smoke.test.js
+  Question / FAQ view counter
+    × POST /queries/:id/view increments the persisted view count (617 ms)
+    √ POST /faqs/:id/view increments the persisted view count (24 ms)
+
+  ● Question / FAQ view counter › POST /queries/:id/view increments the persisted view count
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 2
+    Received: 1
+
+    [0m [90m 81 |[39m     expect(viewRes2[33m.[39mstatus)[33m.[39mtoBe([35m200[39m)[33m;[39m
+     [90m 82 |[39m     [36mconst[39m newer [33m=[39m viewRes2[33m.[39mbody[33m?[39m[33m.[39mdata[33m?[39m[33m.[39mviews [33m?[39m[33m?[39m viewRes2[33m.[39mbody[33m?[39m[33m.[39mviews[33m;[39m
+    [31m[1m>[22m[39m[90m 83 |[39m     expect(newer)[33m.[39mtoBe(newViews [33m+[39m [35m1[39m)[33m;[39m
+     [90m    |[39m                   [31m[1m^[22m[39m
+     [90m 84 |[39m     expect(viewRes2[33m.[39mbody[33m?[39m[33m.[39mdata[33m?[39m[33m.[39mdeduped)[33m.[39mtoBe([36mfalse[39m)[33m;[39m
+     [90m 85 |[39m
+     [90m 86 |[39m     [90m// The persisted view count survives a fresh GET round trip.[39m[0m
+
+      at Object.toBe (tests/question.views.smoke.test.js:83:19)
+
+Test Suites: 1 failed, 1 total
+Tests:       1 failed, 1 passed, 2 total
+Snapshots:   0 total
+Time:        4.444 s, estimated 7 s
+Ran all test suites matching tests/question.views.smoke.test.js.

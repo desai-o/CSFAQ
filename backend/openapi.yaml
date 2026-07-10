@@ -1,0 +1,188 @@
+openapi: 3.0.3
+info:
+  title: CrowdFAQ API
+  version: 1.0.0
+  description: Backend API for CrowdFAQ with MongoDB primary and SQLite fallback.
+
+servers:
+  - url: http://localhost:5000/api
+
+paths:
+  /faqs:
+    get:
+      summary: List FAQs
+      responses:
+        "200":
+          description: FAQ list returned
+    post:
+      summary: Create FAQ
+      responses:
+        "201":
+          description: FAQ created
+
+  /faqs/{id}:
+    delete:
+      summary: Delete FAQ by owner or admin
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: FAQ deleted
+
+  /queries:
+    get:
+      summary: List user queries
+      responses:
+        "200":
+          description: Query list returned
+    post:
+      summary: Submit user query
+      responses:
+        "201":
+          description: Query submitted
+
+  /queries/{id}/resolve:
+    patch:
+      summary: Resolve pending query
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Query resolved
+
+  /answers:
+    post:
+      summary: Submit answer
+      responses:
+        "201":
+          description: Answer submitted
+
+  /votes:
+    post:
+      summary: Toggle vote
+      responses:
+        "200":
+          description: Vote toggled
+
+  /bookmarks:
+    get:
+      summary: List authenticated user's bookmarks
+      responses:
+        "200":
+          description: Bookmarks returned
+    post:
+      summary: Toggle bookmark
+      responses:
+        "200":
+          description: Bookmark toggled
+
+  /follows:
+    post:
+      summary: Follow question or tag
+      responses:
+        "201":
+          description: Follow created
+
+  /notifications:
+    get:
+      summary: List authenticated user's notifications
+      responses:
+        "200":
+          description: Notifications returned
+
+  /search:
+    post:
+      summary: Search FAQs and user queries
+      responses:
+        "200":
+          description: Search results returned
+
+  /admin/overview:
+    get:
+      summary: Admin overview
+      responses:
+        "200":
+          description: Admin overview returned
+
+  /export:
+    get:
+      summary: Export FAQs in JSON, CSV, Markdown, or PDF format
+      responses:
+        "200":
+          description: FAQ export file returned
+
+  /faqs/import:
+    post:
+      summary: Bulk import FAQs from JSON or Markdown content
+      responses:
+        "200":
+          description: FAQs successfully imported or dry-run validation results returned
+
+  /faqs/import/preview:
+    post:
+      summary: Preview FAQs extracted from uploaded PDF, DOCX, or TXT before import
+      responses:
+        "200":
+          description: FAQ preview items returned for confirmation
+
+  /faqs/import/confirm:
+    post:
+      summary: Confirm import of previewed FAQ items
+      responses:
+        "200":
+          description: FAQ items successfully imported into the system
+
+  /faqs/generate-thread:
+    post:
+      summary: Automatic thread generation from base64 document upload
+      responses:
+        "200":
+          description: Extracted pending candidate questions returned
+
+  /recommendations/faqs:
+    get:
+      summary: Retrieve personalized FAQ recommendations for the logged-in user
+      responses:
+        "200":
+          description: Recommended FAQs returned
+
+  /learning-paths:
+    get:
+      summary: List all learning paths
+      responses:
+        "200":
+          description: Learning paths list returned
+    post:
+      summary: Create a new learning path
+      responses:
+        "201":
+          description: Learning path created successfully
+
+  /learning-paths/{id}:
+    get:
+      summary: Retrieve details of a learning path with populated FAQs
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Learning path details returned
+
+  /stats/journey:
+    get:
+      summary: Retrieve user learning journey statistics
+      responses:
+        "200":
+          description: Learning journey statistics returned
+

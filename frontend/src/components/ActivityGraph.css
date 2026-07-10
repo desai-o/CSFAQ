@@ -1,0 +1,235 @@
+/* =============================================
+   ActivityGraph.css
+   ============================================= */
+
+.graph-card {
+  background: var(--bg-white, #ffffff);
+  border-radius: var(--radius-lg, 20px);
+  padding: 24px 28px 28px;
+  border: 1px solid var(--border, #e5e5e5);
+  margin-bottom: 12px;
+  width: 100%;
+  min-height: 100%;
+  box-shadow: var(--shadow-card, 0 8px 24px rgba(0,0,0,0.08));
+  font-family: var(--font-main, sans-serif);
+  box-sizing: border-box;
+}
+[data-theme="dark"] .graph-card {
+  background: #000000;
+  border-color: #222222;
+}
+
+.graph-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.graph-title-group h3 {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-heading, #111827);
+  margin: 0 0 4px 0;
+}
+
+.graph-title-group p {
+  font-size: 13px;
+  color: var(--text-secondary, #888888);
+  margin: 0;
+}
+
+/* Tabs */
+.graph-tabs {
+  display: flex;
+  background: var(--bg-hover, #f5f5f5);
+  padding: 4px;
+  border-radius: 50px;
+  border: 1px solid var(--border, #e5e5e5);
+}
+
+.graph-tab-btn {
+  padding: 8px 18px;
+  border-radius: 50px;
+  font-size: 13px;
+  font-weight: 600;
+  background: transparent;
+  color: var(--text-secondary, #888888);
+  border: none;
+  cursor: pointer;
+  transition: background 200ms ease, color 200ms ease, box-shadow 200ms ease;
+  outline: none;
+}
+
+.graph-tab-btn:hover {
+  color: var(--text-primary, #111111);
+}
+
+.graph-tab-btn.active.tab-questions {
+  background: var(--bg-white, #ffffff);
+  color: #6b7280;
+  box-shadow: 0 2px 8px rgba(107, 114, 128, 0.25);
+}
+
+[data-theme="dark"] .graph-tab-btn.active.tab-questions {
+  color: #9ca3af;
+  box-shadow: 0 2px 8px rgba(156, 163, 175, 0.3);
+}
+
+.graph-tab-btn.active.tab-answers {
+  background: var(--bg-white, #ffffff);
+  color: #22c55e;
+  box-shadow: 0 2px 8px rgba(34, 197, 94, 0.15);
+}
+
+[data-theme="dark"] .graph-tab-btn.active.tab-answers {
+  color: #4ade80;
+  box-shadow: 0 2px 8px rgba(74, 222, 128, 0.2);
+}
+
+.graph-tab-btn.active.tab-upvotes {
+  background: var(--bg-white, #ffffff);
+  color: #3b82f6;
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.15);
+}
+
+[data-theme="dark"] .graph-tab-btn.active.tab-upvotes {
+  color: #60a5fa;
+  box-shadow: 0 2px 8px rgba(96, 165, 250, 0.2);
+}
+
+/* Indicators Row */
+.graph-stats-row {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.graph-stat-box {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-hover, #f5f5f5);
+  border: 1px solid var(--border, #e5e5e5);
+  padding: 12px 18px;
+  border-radius: var(--radius-sm, 8px);
+}
+
+.graph-stat-label {
+  font-size: 11px;
+  color: var(--text-secondary, #888888);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+  font-weight: 600;
+}
+
+.graph-stat-value {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-primary, #111111);
+}
+
+/* Chart Canvas Area */
+.graph-chart-wrapper {
+  position: relative;
+  height: 280px;
+  width: 100%;
+}
+
+/* Skeleton Loading styles */
+.graph-card.skeleton-loading {
+  position: relative;
+  overflow: hidden;
+}
+
+.graph-header-skeleton {
+  height: 48px;
+  background: var(--bg-hover, #f5f5f5);
+  border-radius: var(--radius-sm, 8px);
+  margin-bottom: 24px;
+}
+
+.graph-stats-skeleton {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.graph-stats-skeleton::before,
+.graph-stats-skeleton::after,
+.graph-stats-skeleton-child {
+  content: '';
+  flex: 1;
+  height: 60px;
+  background: var(--bg-hover, #f5f5f5);
+  border-radius: var(--radius-sm, 8px);
+}
+
+.graph-chart-skeleton {
+  height: 280px;
+  background: var(--bg-hover, #f5f5f5);
+  border-radius: var(--radius-sm, 8px);
+}
+
+/* Shimmer Animation for Skeletons */
+.skeleton-loading * {
+  position: relative;
+}
+
+.skeleton-loading *::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  transform: translateX(-100%);
+  background-image: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0,
+    rgba(255, 255, 255, 0.2) 20%,
+    rgba(255, 255, 255, 0.5) 60%,
+    rgba(255, 255, 255, 0)
+  );
+  animation: shimmer 1.5s infinite;
+}
+
+[data-theme="dark"] .skeleton-loading *::after {
+  background-image: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0) 0,
+    rgba(0, 0, 0, 0.1) 20%,
+    rgba(0, 0, 0, 0.2) 60%,
+    rgba(0, 0, 0, 0)
+  );
+}
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Responsive constraints */
+@media (max-width: 600px) {
+  .graph-stats-row {
+    flex-direction: column;
+    gap: 12px;
+  }
+  .graph-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .graph-tabs {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .graph-tab-btn {
+    flex: 1;
+    text-align: center;
+    padding: 8px 4px;
+  }
+}

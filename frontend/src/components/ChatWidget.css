@@ -1,0 +1,434 @@
+
+/* ===== macOS-inspired Chat Widget ===== */
+
+.chat-widget-container {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  z-index: 1000;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
+    "Helvetica Neue", Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ---------- Floating diamond (no circle, just the Gemini sparkle) ---------- */
+.chat-widget-bubble {
+  background: transparent;
+  border: none;
+  padding: 6px;
+  color: #5f6368;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Icy-blue 4-pointed star */
+.chat-widget-bubble .gemini-icon {
+  width: 52px;
+  height: 52px;
+  display: block;
+  filter:
+    drop-shadow(0 4px 12px rgba(46, 120, 196, 0.35))
+    drop-shadow(0 2px 4px rgba(0, 0, 0, 0.12));
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+    filter 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.chat-widget-bubble:hover .gemini-icon {
+  transform: scale(1.08) translateY(-2px);
+  filter:
+    drop-shadow(0 8px 20px rgba(46, 120, 196, 0.5))
+    drop-shadow(0 3px 6px rgba(0, 0, 0, 0.18));
+}
+
+.chat-widget-bubble:active .gemini-icon {
+  transform: scale(0.94);
+}
+
+/* When opened, just keep the X icon visible (diamond rotation would be invisible) */
+.chat-widget-bubble.open {
+  color: #1d1d1f;
+}
+
+/* ---------- macOS Sonoma-style window ---------- */
+.chat-window {
+  position: absolute;
+  bottom: 72px;
+  left: 0;
+  width: 380px;
+  height: 540px;
+  border-radius: 14px;
+  background: rgba(246, 246, 246, 0.78);
+  -webkit-backdrop-filter: blur(30px) saturate(180%);
+  backdrop-filter: blur(30px) saturate(180%);
+  border: 0.5px solid rgba(0, 0, 0, 0.15);
+  box-shadow:
+    0 22px 50px rgba(0, 0, 0, 0.25),
+    0 0 0 0.5px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: macSlideIn 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+  transform-origin: bottom left;
+}
+
+[data-theme="dark"] .chat-window {
+  background: rgba(36, 36, 38, 0.78);
+  border: 0.5px solid rgba(255, 255, 255, 0.12);
+  box-shadow:
+    0 22px 50px rgba(0, 0, 0, 0.55),
+    0 0 0 0.5px rgba(255, 255, 255, 0.05);
+}
+
+@keyframes macSlideIn {
+  from {
+    opacity: 0;
+    transform: scale(0.92) translate(-8px, 8px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translate(0, 0);
+  }
+}
+
+/* ---------- Title bar ---------- */
+.chat-header {
+  position: relative;
+  padding: 12px 16px 10px;
+  background: linear-gradient(
+    to bottom,
+    rgba(230, 230, 230, 0.6),
+    rgba(214, 214, 217, 0.45)
+  );
+  border-bottom: 0.5px solid rgba(0, 0, 0, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 38px;
+}
+
+[data-theme="dark"] .chat-header {
+  background: linear-gradient(
+    to bottom,
+    rgba(56, 56, 60, 0.6),
+    rgba(44, 44, 46, 0.45)
+  );
+  border-bottom: 0.5px solid rgba(255, 255, 255, 0.08);
+}
+
+.chat-header-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: center;
+}
+
+.chat-header-title h4 {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: #1d1d1f;
+  letter-spacing: -0.01em;
+}
+
+[data-theme="dark"] .chat-header-title h4 {
+  color: #f5f5f7;
+}
+
+.chat-header-subtitle {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 10px;
+  color: #86868b;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  font-weight: 500;
+}
+
+/* Default (offline / unknown) — gray dot, no pulse, looks idle. */
+.chat-pulse-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: #8e8e93;
+  box-shadow: none;
+  animation: none;
+  opacity: 0.6;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
+}
+
+[data-theme="dark"] .chat-pulse-dot {
+  background-color: #6e6e73;
+  opacity: 0.7;
+}
+
+/* Online (API key working) — green dot with the macOS pulse animation. */
+.chat-pulse-dot.online {
+  background-color: #34c759;
+  box-shadow: 0 0 0 0 rgba(52, 199, 89, 0.6);
+  animation: macPulse 1.8s infinite;
+  opacity: 1;
+}
+
+[data-theme="dark"] .chat-pulse-dot.online {
+  background-color: #30d158;
+}
+
+@keyframes macPulse {
+  0% {
+    transform: scale(0.9);
+    box-shadow: 0 0 0 0 rgba(52, 199, 89, 0.6);
+  }
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 6px rgba(52, 199, 89, 0);
+  }
+  100% {
+    transform: scale(0.9);
+    box-shadow: 0 0 0 0 rgba(52, 199, 89, 0);
+  }
+}
+
+/* ---------- Messages ---------- */
+.chat-messages {
+  flex: 1;
+  padding: 16px 14px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: transparent;
+}
+
+.chat-messages::-webkit-scrollbar {
+  width: 6px;
+}
+.chat-messages::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.18);
+  border-radius: 4px;
+}
+[data-theme="dark"] .chat-messages::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+/* iMessage-style message bubbles */
+.chat-msg-bubble {
+  max-width: 78%;
+  padding: 8px 13px;
+  border-radius: 18px;
+  font-size: 13.5px;
+  line-height: 1.4;
+  word-wrap: break-word;
+  font-weight: 400;
+  letter-spacing: -0.005em;
+  animation: macMsgIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes macMsgIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* User bubble — iMessage blue */
+.chat-msg-bubble.user {
+  align-self: flex-end;
+  background: linear-gradient(180deg, #0a84ff 0%, #007aff 100%);
+  color: #ffffff;
+  border-bottom-right-radius: 5px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08);
+}
+
+/* Model bubble — macOS light gray */
+.chat-msg-bubble.model {
+  align-self: flex-start;
+  background-color: rgba(229, 229, 234, 0.95);
+  color: #1d1d1f;
+  border-bottom-left-radius: 5px;
+}
+
+[data-theme="dark"] .chat-msg-bubble.model {
+  background-color: rgba(58, 58, 60, 0.95);
+  color: #f5f5f7;
+}
+
+/* Citations — macOS pill style */
+.chat-citation-link {
+  display: inline-block;
+  margin: 4px 2px;
+  padding: 2px 8px;
+  background-color: rgba(0, 122, 255, 0.12);
+  color: #007aff;
+  text-decoration: none;
+  font-size: 11px;
+  border-radius: 999px;
+  font-weight: 500;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+[data-theme="dark"] .chat-citation-link {
+  background-color: rgba(10, 132, 255, 0.22);
+  color: #64a0ff;
+}
+
+.chat-citation-link:hover {
+  background-color: #007aff;
+  color: #ffffff;
+}
+
+/* ---------- Footer ---------- */
+.chat-footer {
+  padding: 10px 12px 12px;
+  border-top: 0.5px solid rgba(0, 0, 0, 0.12);
+  background: rgba(255, 255, 255, 0.4);
+}
+
+[data-theme="dark"] .chat-footer {
+  border-top: 0.5px solid rgba(255, 255, 255, 0.1);
+  background: rgba(28, 28, 30, 0.4);
+}
+
+.chat-auth-prompt {
+  text-align: center;
+  font-size: 12.5px;
+  color: #6e6e73;
+  padding: 4px 0;
+}
+
+[data-theme="dark"] .chat-auth-prompt {
+  color: #aeaeb2;
+}
+
+.chat-auth-prompt a {
+  color: #007aff;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.chat-input-form {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+/* macOS search-field-like input */
+.chat-input-form input {
+  flex: 1;
+  border: 0.5px solid rgba(0, 0, 0, 0.18);
+  border-radius: 18px;
+  padding: 7px 14px;
+  font-size: 13px;
+  background-color: rgba(255, 255, 255, 0.9);
+  color: #1d1d1f;
+  outline: none;
+  font-family: inherit;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease,
+    background-color 0.15s ease;
+}
+
+[data-theme="dark"] .chat-input-form input {
+  border: 0.5px solid rgba(255, 255, 255, 0.15);
+  background-color: rgba(58, 58, 60, 0.9);
+  color: #f5f5f7;
+}
+
+.chat-input-form input::placeholder {
+  color: #86868b;
+}
+
+.chat-input-form input:focus {
+  border-color: #007aff;
+  box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.18);
+  background-color: #ffffff;
+}
+
+[data-theme="dark"] .chat-input-form input:focus {
+  background-color: rgba(58, 58, 60, 1);
+}
+
+.chat-input-form button {
+  background: linear-gradient(180deg, #ffffff 0%, #f2f2f2 100%);
+  border: 0.5px solid rgba(0, 0, 0, 0.18);
+  color: #007aff;
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.15s ease, background 0.15s ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+}
+
+[data-theme="dark"] .chat-input-form button {
+  background: linear-gradient(180deg, #4a4a4d 0%, #3a3a3c 100%);
+  border: 0.5px solid rgba(255, 255, 255, 0.12);
+  color: #64a0ff;
+}
+
+.chat-input-form button:hover:not(:disabled) {
+  transform: scale(1.05);
+  background: linear-gradient(180deg, #f2f2f2 0%, #e8e8e8 100%);
+}
+
+[data-theme="dark"] .chat-input-form button:hover:not(:disabled) {
+  background: linear-gradient(180deg, #5a5a5d 0%, #4a4a4d 100%);
+}
+
+.chat-input-form button:active:not(:disabled) {
+  transform: scale(0.95);
+}
+
+.chat-input-form button:disabled {
+  color: #c7c7cc;
+  cursor: not-allowed;
+}
+
+[data-theme="dark"] .chat-input-form button:disabled {
+  color: #48484a;
+}
+
+/* ---------- Typing indicator (macOS pulse style) ---------- */
+.chat-msg-bubble.model.loading {
+  padding: 12px 14px;
+}
+
+.typing-indicator {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.typing-indicator span {
+  width: 7px;
+  height: 7px;
+  background-color: #8e8e93;
+  border-radius: 50%;
+  display: inline-block;
+  animation: macBounce 1.3s infinite ease-in-out both;
+}
+
+.typing-indicator span:nth-child(1) { animation-delay: -0.32s; }
+.typing-indicator span:nth-child(2) { animation-delay: -0.16s; }
+
+@keyframes macBounce {
+  0%, 80%, 100% {
+    transform: scale(0.6);
+    opacity: 0.5;
+  }
+  40% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
